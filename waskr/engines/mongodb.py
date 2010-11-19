@@ -104,7 +104,10 @@ class Stats(object):
         log.model.debug("query finished. processing...")
         for stat in records:
             data = []
-            hits = self.cache.get(stat['time'])
+            if stat != records[-1]: # don't cache last minute
+              hits = self.cache.get(stat['time'])
+            else:
+              hits = None
             if not hits:
               log.model.debug("refreshing...")
               hits = self.stats.find({'time':stat['time']}).count()

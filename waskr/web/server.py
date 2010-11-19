@@ -89,7 +89,7 @@ def main(config=CONF):
         local.db = Stats(config)
 
         # Start the waskr server
-        run(host=config['web_host'], port=config['web_port'])
+        run(host=config['web_host'], port=config['web_port'], server='meinheld')
     except Exception, e:
         print "Couldn't start the waskr server:\n%s" % e
 
