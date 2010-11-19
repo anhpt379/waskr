@@ -1,25 +1,30 @@
 %include header
-
-</li> 
+</li>
 </ul>
-  <blockquote> 
-          <table style="width: 600px;">
-            <th>Application</th>
-            <th style="text-align:center;">Node</th>
-            <th style="text-align:center;">Last request</th>
-                 % for app in apps:
-              <tr>
-                 <td>
-                     <a href="/application/{{app[0]}}">{{app[0]}}</a>
-                 </td>
-                 <td align="center">
-                      <a>{{app[1]}}</a>
-                 </td>    
-                 <td align="center">
-                      <a>{{last_received}}</a> 
-                 </td>
-              </tr>
-              % end
-      </table> 
-  </blockquote>     
+<blockquote>
+    <table style="width: 600px;">
+        <th>
+            Application
+        </th>
+        <th style="text-align:center;">
+            Node
+        </th>
+        <th style="text-align:center;">
+            Last request
+        </th>
+        % for app in apps:
+        <tr>
+            <td>
+                <a href="/application/{{app[0]}}">{{app[0]}}</a>
+            </td>
+            <td align="center">
+                <a>{{app[1]}}</a>
+            </td>
+            <td align="center">
+                <a>{{last_received}}</a>
+            </td>
+        </tr>
+        % end
+    </table>
+</blockquote>
 </div>
