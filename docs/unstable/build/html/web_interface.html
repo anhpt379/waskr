@@ -1,0 +1,187 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Web Interface &mdash; waskr v0.0.9 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.9',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="waskr v0.0.9 documentation" href="index.html" />
+    <link rel="next" title="Command Line" href="command_line.html" />
+    <link rel="prev" title="plugins – API" href="plugins.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="command_line.html" title="Command Line"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="plugins.html" title="plugins – API"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">waskr v0.0.9 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="web-interface">
+<span id="id1"></span><h1>Web Interface<a class="headerlink" href="#web-interface" title="Permalink to this headline">¶</a></h1>
+<p>For convenience we have added a web interface. Although, the most important part of <em>waskr</em> as a middleware is
+storing the stats, not actually giving powerful representation of it.</p>
+<p>This interface is <strong>separate</strong> from the middleware, meaning it runs as a different entity, with its own
+server instance and port (as you may have seen from the <a class="reference internal" href="getting_started.html#adding-configuration"><em>Adding Configuration</em></a>).</p>
+<div class="section" id="first-run">
+<h2>First run<a class="headerlink" href="#first-run" title="Permalink to this headline">¶</a></h2>
+<p>Once you have started the web server with your desired configurations (see <a class="reference internal" href="command_line.html#server"><em>server</em></a>) you will need
+to login as the <tt class="docutils literal"><span class="pre">web_user</span></tt> you have configured in your INI file (this greatly differs from earlier versions
+of waskr where you needed to add/remove users via the command line).</p>
+<p>If you haven&#8217;t added such a user in your configuration file it is tribial to do so:</p>
+<div class="highlight-python"><pre>waskr.web.user = user@example.com</pre>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This <strong>DOES NOT</strong> provide a secure interface. Adding your email is just a deterrent for
+unwanted usage.</p>
+</div>
+<p>You will need to restart the server if you make any changes.</p>
+<p>At login time, the server will verify the value of <tt class="docutils literal"><span class="pre">waskr.web.user</span></tt> and match it to what you
+submit.</p>
+<p>By default, this value is set to <tt class="xref docutils literal"><span class="pre">False</span></tt> and will not allow any logins.</p>
+</div>
+<div class="section" id="stopping-the-server">
+<h2>Stopping the Server<a class="headerlink" href="#stopping-the-server" title="Permalink to this headline">¶</a></h2>
+<p>The web instance of waskr runs in the foreground. To stop it, you need to send a <tt class="docutils literal"><span class="pre">KeyboardInterrupt</span></tt>
+signal by hitting <tt class="docutils literal"><span class="pre">Ctrl-C</span></tt></p>
+</div>
+<div class="section" id="login-page">
+<h2>Login Page<a class="headerlink" href="#login-page" title="Permalink to this headline">¶</a></h2>
+<p>The web server stores a cookie that takes a while to expire. Once you ahve logged in correctly
+you will be able to return to the application without being prompted again for some time.</p>
+<p>This is what you should get the first time you run the web interface:</p>
+<img alt="_images/login.png" src="_images/login.png" />
+</div>
+<div class="section" id="main-page">
+<h2>Main Page<a class="headerlink" href="#main-page" title="Permalink to this headline">¶</a></h2>
+<p>This is where you can see all your applications and nodes, including some data that tells you
+when was the last time that a stat was received by the database.</p>
+<p>This is what 2 applications would look like:</p>
+<img alt="_images/main.png" src="_images/main.png" />
+</div>
+<div class="section" id="stats-page">
+<h2>Stats Page<a class="headerlink" href="#stats-page" title="Permalink to this headline">¶</a></h2>
+<p>Each application is a link that will take you to the stats page for that specific app. URL&#8217;s
+are as RestFul as they can, so this is what you would see if you hit the main app:</p>
+<img alt="_images/main_app.png" src="_images/main_app.png" />
+<p>Note that the graph is empty, this is because no data has been pushed to the database (yet).</p>
+<p>If you start hitting your application with the middleware in it you should see something like this:</p>
+<img alt="_images/main_stats.png" src="_images/main_stats.png" />
+</div>
+<div class="section" id="time-ranges">
+<h2>Time Ranges<a class="headerlink" href="#time-ranges" title="Permalink to this headline">¶</a></h2>
+<p>We are lacking lots of web features, but since we are interacting with data in a RetFul way
+you can ask for <em>N Minutes ago</em> in the url, like:</p>
+<div class="highlight-python"><pre>http:://localhost:8080/application/main/360</pre>
+</div>
+<p>By default, <strong>waskr</strong> displays the last 2 hours of activity. But in the above we are requesting the last 4 hours
+(e.g. last 360 minutes).</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Web Interface</a><ul>
+<li><a class="reference internal" href="#first-run">First run</a></li>
+<li><a class="reference internal" href="#stopping-the-server">Stopping the Server</a></li>
+<li><a class="reference internal" href="#login-page">Login Page</a></li>
+<li><a class="reference internal" href="#main-page">Main Page</a></li>
+<li><a class="reference internal" href="#stats-page">Stats Page</a></li>
+<li><a class="reference internal" href="#time-ranges">Time Ranges</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="plugins.html"
+                        title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">plugins</span></tt> &#8211; API</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="command_line.html"
+                        title="next chapter">Command Line</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/web_interface.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="command_line.html" title="Command Line"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="plugins.html" title="plugins – API"
+             >previous</a> |</li>
+        <li><a href="index.html">waskr v0.0.9 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Alfredo Deza.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

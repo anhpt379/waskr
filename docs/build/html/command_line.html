@@ -1,0 +1,166 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Command Line &mdash; waskr v0.0.10 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.10',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="waskr v0.0.10 documentation" href="index.html" />
+    <link rel="next" title="Under the Hood" href="under_the_hood.html" />
+    <link rel="prev" title="Web Interface" href="web_interface.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="under_the_hood.html" title="Under the Hood"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="web_interface.html" title="Web Interface"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">waskr v0.0.10 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="command-line">
+<span id="id1"></span><h1>Command Line<a class="headerlink" href="#command-line" title="Permalink to this headline">¶</a></h1>
+<p>A command line tool is provided to <em>start</em>, <em>stop</em> or provide a configuration file to the web instance.</p>
+<p>Here is a list of different flags and options you have when running the <a class="reference external" href="#command-line">command-line</a></p>
+<div class="highlight-python"><pre>[alfredo@mbp ~/] waskrc
+Usage: waskrc [options]
+
+WASKR Command Line Utility
+
+Options:
+  --version    show program's version number and exit
+  -h, --help   show this help message and exit
+  --server     Runs the web server.  If no configuration file is passed
+               localhost and port 8080 is used.
+  --conf=CONF  Pass a INI configuration file</pre>
+</div>
+<div class="section" id="server">
+<span id="id2"></span><h2>server<a class="headerlink" href="#server" title="Permalink to this headline">¶</a></h2>
+<p>The server flag <tt class="docutils literal"><span class="pre">--server</span></tt> calls the web instance (provided by the Bottle Framework). You
+do not need to pass any value to this option, defaults will be used in that case:</p>
+<div class="highlight-python"><pre>[alfredo@mbp ~/]$ waskrc --server
+Bottle server starting up (using WSGIRefServer())...
+Listening on http://localhost:8080/
+Use Ctrl-C to quit.</pre>
+</div>
+<p>In case of errors, you should get an output with some explanation like in this case:</p>
+<div class="highlight-python"><pre>Bottle server starting up (using WSGIRefServer())...
+Listening on http://localhost:8080/
+Use Ctrl-C to quit.
+
+Couldn't start the waskr server:
+[Errno 48] Address already in use</pre>
+</div>
+</div>
+<div class="section" id="conf">
+<h2>conf<a class="headerlink" href="#conf" title="Permalink to this headline">¶</a></h2>
+<p>If you have a INI configuration (similar to <a class="reference internal" href="getting_started.html#adding-configuration"><em>Adding Configuration</em></a>) you can pass
+it with the <tt class="docutils literal"><span class="pre">--conf</span></tt> flag. In this case we changed the port from <tt class="docutils literal"><span class="pre">8080</span></tt> to <tt class="docutils literal"><span class="pre">8081</span></tt>:</p>
+<div class="highlight-python"><pre>[alfredo@mbp ~/]$ waskrc --server --conf app.ini
+Bottle server starting up (using WSGIRefServer())...
+Listening on http://localhost:8081/
+Use Ctrl-C to quit.</pre>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Command Line</a><ul>
+<li><a class="reference internal" href="#server">server</a></li>
+<li><a class="reference internal" href="#conf">conf</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="web_interface.html"
+                        title="previous chapter">Web Interface</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="under_the_hood.html"
+                        title="next chapter">Under the Hood</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/command_line.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="under_the_hood.html" title="Under the Hood"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="web_interface.html" title="Web Interface"
+             >previous</a> |</li>
+        <li><a href="index.html">waskr v0.0.10 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Alfredo Deza.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0b2.
+    </div>
+  </body>
+</html>

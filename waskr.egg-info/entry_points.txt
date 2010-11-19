@@ -1,0 +1,3 @@
+[console_scripts]
+waskr = waskr:main_
+

@@ -1,0 +1,262 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Getting Started &mdash; waskr v0.0.10 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.10',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="waskr v0.0.10 documentation" href="index.html" />
+    <link rel="next" title="Configuring" href="configuration.html" />
+    <link rel="prev" title="waskr documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="configuration.html" title="Configuring"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="waskr documentation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">waskr v0.0.10 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="getting-started">
+<span id="id1"></span><h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<p>There are a few things to keep in mind when wanting to get started with <strong>waskr</strong>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This portion of the documentation assumes you already have <strong>waskr</strong> installed.</p>
+</div>
+<div class="section" id="databases">
+<h2>Databases<a class="headerlink" href="#databases" title="Permalink to this headline">¶</a></h2>
+<p><strong>waskr</strong> is fully database-driven. For now, it will only work with Sqlite3 and MongoDB. So make sure you have an instance of MongoDB running in your environment before going forward in this guide.</p>
+<p>If there is enough demand, we will accomodate other databases.</p>
+</div>
+<div class="section" id="no-configuration">
+<h2>No Configuration<a class="headerlink" href="#no-configuration" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s start with an instance of <strong>waskr</strong> that has not been configured. Since this middleware
+does not need to be fully configured to be working properly!</p>
+<p>What a normal, no-middleware application might look like:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+    <span class="n">start_response</span><span class="p">(</span><span class="s">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s">&#39;content-type&#39;</span><span class="p">,</span> <span class="s">&#39;text/plain&#39;</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="p">(</span><span class="s">&#39;Hello world!&#39;</span><span class="p">,)</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">wsgi_server</span><span class="p">(</span><span class="n">application</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now let&#8217;s add <strong>waskr</strong> as a middleware:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">waskr.middleware</span> <span class="kn">import</span> <span class="n">RequestStatsMiddleware</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">RequestStatsMiddleware</span><span class="p">(</span><span class="n">application</span><span class="p">)</span>
+<span class="n">wsgi_server</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Zero configuration can be fun...</p>
+</div>
+<div class="section" id="adding-configuration">
+<span id="id2"></span><h2>Adding Configuration<a class="headerlink" href="#adding-configuration" title="Permalink to this headline">¶</a></h2>
+<p>If you are already using configuration files for your application, especially in full WSGI
+frameworks like Turbogears or Pylons, then you can add waskr-specfic lines to them and pass the
+configuration to the middleware.</p>
+<p>Waskr does not need any configuration to run, as long as your environment is matching some defaults.</p>
+<p>For example, if you are running MongoDB in localhost with the standard.</p>
+<p>Below is reduced example of the options you may want to use. For a deeper exaplanation of how you can
+use and tweak the configuration options, please go to <a class="reference internal" href="configuration.html#configuration"><em>Configuring</em></a></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Make sure that your options go within the <tt class="docutils literal"><span class="pre">[DEFAULT]</span></tt> section!</p>
+</div>
+<p>INI Style Configuration:</p>
+<div class="highlight-python"><pre># This is a sample Configuration File
+# for running any of Waskr's utilities
+# It should be taken as an example if you are running
+# a Pylons or Paster app and want to put some Configuration
+# settings there.
+#
+# You can also pass a dictionary, since all of waskr's utilities
+# look for a dictionary type of configuration to read from.
+
+[DEFAULT]
+# Middleware Configuration
+waskr.middleware.server_id = 1
+waskr.middleware.application = main
+
+# Database Engine
+waskr.db.engine = sqlite
+
+# Use only for Sqlite3
+waskr.db.location = /tmp
+
+# Database (Mongo)
+waskr.db.host = localhost
+waskr.db.port = 27017
+
+# Logging
+waskr.log.level = DEBUG
+waskr.log.format = %(asctime)s %(levelname)s %(name)s  %(message)s
+waskr.log.datefmt = %H:%M:%S
+
+# Cache
+waskr.cache = 10
+
+# Web User
+waskr.web.user = alfredo@example.com</pre>
+</div>
+<p>Also note that if no options are passed, defaults are used.
+This also means that you may have only a few options set, and some other left as defaults.</p>
+<p>You choose!</p>
+<p>You can also pass the configuration settings as a dictionary. However, special care needs to
+be taken since the naming changes a bit.</p>
+<p>And default values are shown below. This is the dictionary you could pass
+directly into the Middleware if you chose to:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">defaults</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;server_id&#39;</span><span class="p">:</span> <span class="s">&#39;1&#39;</span><span class="p">,</span>
+    <span class="s">&#39;db_engine&#39;</span><span class="p">:</span><span class="s">&#39;sqlite&#39;</span><span class="p">,</span>
+    <span class="s">&#39;db_location&#39;</span><span class="p">:</span><span class="s">&#39;/tmp&#39;</span><span class="p">,</span>
+    <span class="s">&#39;db_host&#39;</span><span class="p">:</span> <span class="s">&#39;localhost&#39;</span><span class="p">,</span>
+    <span class="s">&#39;db_port&#39;</span><span class="p">:</span> <span class="mi">27017</span><span class="p">,</span>
+    <span class="s">&#39;application&#39;</span><span class="p">:</span> <span class="s">&#39;main&#39;</span><span class="p">,</span>
+    <span class="s">&#39;web_host&#39;</span><span class="p">:</span> <span class="s">&#39;localhost&#39;</span><span class="p">,</span>
+    <span class="s">&#39;web_port&#39;</span><span class="p">:</span> <span class="s">&#39;8080&#39;</span><span class="p">,</span>
+    <span class="s">&#39;web_user&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+    <span class="s">&#39;plugins&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+    <span class="s">&#39;plugin_path&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+    <span class="s">&#39;cache&#39;</span><span class="p">:</span> <span class="s">&#39;10&#39;</span><span class="p">,</span>
+    <span class="s">&#39;log_level&#39;</span><span class="p">:</span> <span class="s">&#39;DEBUG&#39;</span><span class="p">,</span>
+    <span class="s">&#39;log_format&#39;</span><span class="p">:</span> <span class="s">&#39;</span><span class="si">%(asctime)s</span><span class="s"> </span><span class="si">%(levelname)s</span><span class="s"> </span><span class="si">%(name)s</span><span class="s">  </span><span class="si">%(message)s</span><span class="s">&#39;</span><span class="p">,</span>
+    <span class="s">&#39;log_datefmt&#39;</span> <span class="p">:</span> <span class="s">&#39;%H:%M:%S&#39;</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>Again, if you are looking for more detailed explanation about configuring. Please jump over to
+<a class="reference internal" href="configuration.html#configuration"><em>Configuring</em></a></p>
+</div>
+<div class="section" id="passing-the-configuration">
+<h2>Passing the Configuration<a class="headerlink" href="#passing-the-configuration" title="Permalink to this headline">¶</a></h2>
+<p>Now that you have the file, or dictionary with the specific configuration settings you may
+want, how do you pass them to the Middleware?</p>
+<p>Since <strong>waskr</strong> is allowing either a file, a dictionary or a paster dictionary passing this to the Middleware
+is tribial.</p>
+<p>For a INI config file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">app</span> <span class="o">=</span> <span class="n">RequestStatsMiddleware</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="s">&#39;/my/path/to/app.ini&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For a dictionary:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">my_config</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;server_id&#39;</span><span class="p">:</span> <span class="s">&#39;3&#39;</span><span class="p">}</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">RequestStatsMiddleware</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">my_config</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note how we only passed one of the items in the configuration? Everything else would be the default. Again, you do not need to pass every option!</p>
+<p>For a config object from Paster, Pylons or Turbogears you need to make sure you are passing the <em>actual</em> dictionary-like
+instance.</p>
+<p>For turbogears you would need to import it like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">tg</span> <span class="kn">import</span> <span class="n">config</span>
+</pre></div>
+</div>
+<p>And then pass it to the <tt class="docutils literal"><span class="pre">framework_config</span></tt> parameter:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">app</span> <span class="o">=</span> <span class="n">RequestStatsMiddleware</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">framework_config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Getting Started</a><ul>
+<li><a class="reference internal" href="#databases">Databases</a></li>
+<li><a class="reference internal" href="#no-configuration">No Configuration</a></li>
+<li><a class="reference internal" href="#adding-configuration">Adding Configuration</a></li>
+<li><a class="reference internal" href="#passing-the-configuration">Passing the Configuration</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">waskr documentation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="configuration.html"
+                        title="next chapter">Configuring</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/getting_started.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="configuration.html" title="Configuring"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="waskr documentation"
+             >previous</a> |</li>
+        <li><a href="index.html">waskr v0.0.10 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Alfredo Deza.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0b2.
+    </div>
+  </body>
+</html>

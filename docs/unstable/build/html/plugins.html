@@ -1,0 +1,417 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>plugins – API &mdash; waskr v0.0.9 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.9',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="waskr v0.0.9 documentation" href="index.html" />
+    <link rel="next" title="Web Interface" href="web_interface.html" />
+    <link rel="prev" title="Configuring" href="configuration.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="web_interface.html" title="Web Interface"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="configuration.html" title="Configuring"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">waskr v0.0.9 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-plugins">
+<span id="plugins-api"></span><span id="plugins"></span><h1><a class="reference internal" href="#module-plugins"><tt class="xref py py-mod docutils literal"><span class="pre">plugins</span></tt></a> &#8211; API<a class="headerlink" href="#module-plugins" title="Permalink to this headline">¶</a></h1>
+<p>Waskr provides a simple yet flexible way to write plugins so you can extract stored
+stats and alter them in whatever way you need.</p>
+<p>The API offers a few things:</p>
+<blockquote>
+<ul class="simple">
+<li>Full Access to waskr&#8217;s config values (parsed from the config file you provide)</li>
+<li>Custom entries for the config file that get parsed and stored (as many as you may need)</li>
+<li>Displays your plugin in the help menu (if configured)</li>
+<li>Allows to force a parameter on your plugin option (command line)</li>
+</ul>
+</blockquote>
+<dl class="class">
+<dt id="plugins.Plugin">
+<em class="property">class </em><tt class="descclassname">plugins.</tt><tt class="descname">Plugin</tt><big>(</big><em>name</em><span class="optional">[</span>, <em>action</em><span class="optional">[</span>, <em>description</em><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#plugins.Plugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main class in the module, has 1 required parameter and 3 optionals:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; The command line option (e.g. &#8211;my-plugin) <strong>required</strong></li>
+<li><strong>action</strong> &#8211; <tt class="xref docutils literal"><span class="pre">None</span></tt> enforces the user to pass an argument, and <tt class="docutils literal"><span class="pre">&quot;store_true&quot;</span></tt> doesn&#8217;t.</li>
+<li><strong>description</strong> &#8211; is the help menu that will get displayed along with waskr&#8217;s options</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="plugins.Plugin.run">
+<tt class="descname">run</tt><big>(</big><em>values</em><big>)</big><a class="headerlink" href="#plugins.Plugin.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>The actual method that gets called when your plugin name gets passed
+as an option to waskr.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>values</strong> &#8211; Used in case you are passing arguments in the command line.
+The argument will get pushed to this parameter.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="plugins.Plugin.config_values">
+<tt class="descname">config_values</tt><big>(</big><big>)</big><a class="headerlink" href="#plugins.Plugin.config_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a dictionary with the current parsed configuration options including
+custom options set in the config file.</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="section" id="first-step">
+<span id="id1"></span><h2>First Step<a class="headerlink" href="#first-step" title="Permalink to this headline">¶</a></h2>
+<p>Any plugin will need to inherit from our Plugin class. This basically allows waskr to
+&#8220;know&#8221; about your plugin. So the most basic example would look like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">waskr.plugins</span> <span class="kn">import</span> <span class="n">Plugin</span>
+
+<span class="k">class</span> <span class="nc">my_class</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">Plugin</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;--my-plugin&quot;</span><span class="p">,</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="n">description</span> <span class="o">=</span> <span class="s">&quot;My own custom plugin woot&quot;</span>
+            <span class="p">)</span>
+</pre></div>
+</div>
+<p>In the above snippet, you are doing a few things, lets break what is happening there
+line by line:</p>
+<blockquote>
+<ul class="simple">
+<li>From the <tt class="docutils literal"><span class="pre">plugins</span></tt> module you are importing <tt class="docutils literal"><span class="pre">Plugin</span></tt></li>
+<li>Your class (whatever the name) inherits <tt class="docutils literal"><span class="pre">Plugin</span></tt> (if curious, <tt class="docutils literal"><span class="pre">Plugin</span></tt> inherits from <tt class="docutils literal"><span class="pre">object</span></tt>)</li>
+<li>init needs to call <tt class="docutils literal"><span class="pre">Plugin.__init__</span></tt></li>
+</ul>
+</blockquote>
+<p>This would be the bare minimum for you to get a plugin up and running.</p>
+</div>
+<div class="section" id="enabling-plugin-s">
+<span id="enabling"></span><h2>Enabling plugin(s)<a class="headerlink" href="#enabling-plugin-s" title="Permalink to this headline">¶</a></h2>
+<p>Waskr needs to know about plugins and the plugin location. In your configuration file,
+you should add these options.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If either option for the plugin system is not set, plugins will fail to load</p>
+</div>
+<p><em>waskr.plugins</em> Will tell the app what plugin(s) it needs to load.
+<em>waskr.plugin.path</em> Is the absolute path to the plugin <strong>directory</strong></p>
+<p>Below are the options in INI style:</p>
+<div class="highlight-python"><pre># Plugins
+waskr.plugins = my_plugin
+waskr.plugin.path = /Users/alfredo/waskr_plugins</pre>
+</div>
+<p>You do <strong>not</strong> need that directory to have a <tt class="docutils literal"><span class="pre">__init__.py</span></tt> file</p>
+<p>For the above to actually make your plugin work, you would need to have a file called <tt class="docutils literal"><span class="pre">my_plugin.py</span></tt>
+inside the specified directory with the code shown in <a class="reference internal" href="#first-step"><em>First Step</em></a>.</p>
+</div>
+<div class="section" id="actions">
+<span id="id2"></span><h2>Actions<a class="headerlink" href="#actions" title="Permalink to this headline">¶</a></h2>
+<p>To make your plugin do something when it is called via the command line, you need to use the
+<tt class="docutils literal"><span class="pre">Plugin</span></tt> method <tt class="docutils literal"><span class="pre">run()</span></tt>.</p>
+<p>Just in case you fail to use <tt class="docutils literal"><span class="pre">run()</span></tt> waskr will produce a warning message as output:</p>
+<div class="highlight-python"><pre>$ waskr --my-plugin foo
+
+If you see this text, it means you are *not* using
+the "run()" method in your plugin code.
+You should be defining such a method to be executed when
+your plugin is called.</pre>
+</div>
+<p>The most simple way to implement this is to create such a method in your code.
+Using the same plugin example as in <a class="reference internal" href="#first-step"><em>First Step</em></a> you should add this to the
+class:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">print</span> <span class="n">value</span>
+</pre></div>
+</div>
+<p>Here is another requirement for the plugin: it needs to have a <em>value</em> argument.</p>
+<p>The reason for this, is that if you decide to take arguments in the command line and
+want to use them in your <tt class="docutils literal"><span class="pre">run()</span></tt> method, then those arguments are passed on to your
+plugin via that key.</p>
+<p>If you added the above method, you should see something like this when running
+without arguments:</p>
+<div class="highlight-python"><pre>$ waskr --my-plugin
+Usage: waskr [options]
+
+waskr: error: --my-plugin option requires an argument</pre>
+</div>
+<p>And something like this when adding an argument to <tt class="docutils literal"><span class="pre">--my-plugin</span></tt>:</p>
+<div class="highlight-python"><pre>$ waskr --my-plugin foo
+foo</pre>
+</div>
+<p>To change the enforcement of arguments, you should change the attribute of
+the <tt class="docutils literal"><span class="pre">Plugin</span></tt> class (<em>action</em>) from <tt class="xref docutils literal"><span class="pre">None</span></tt> to <tt class="docutils literal"><span class="pre">&quot;store_true&quot;</span></tt>.
+If you are familiar with the <em>OptParse</em> module from the standard library in
+Python, this works very similar, and although waskr uses <em>OptParse</em>
+we are just registering your options there for the help menu.</p>
+</div>
+<div class="section" id="configuration-access">
+<span id="id3"></span><h2>Configuration Access<a class="headerlink" href="#configuration-access" title="Permalink to this headline">¶</a></h2>
+<p>At runtime, waskr parses values and stores them in a dictionary. Behind the scenes
+it does some mappings to get default values if some things are not set.</p>
+<p>When writing a plugin you may want to access the database but it is always easier
+to access what you already have in the config file such as users and passwords and
+paths.</p>
+<p>The <a class="reference internal" href="#plugins.Plugin" title="plugins.Plugin"><tt class="xref py py-class docutils literal"><span class="pre">Plugin</span></tt></a> class has a method  called <tt class="xref py py-meth docutils literal"><span class="pre">config_values()</span></tt> that will return the dictionary with all the config
+values waskr has currently in memory.</p>
+<p>To access such a method, you just need to call it within your plugin. So something like this would work:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">conf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_values</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">conf</span>
+<span class="p">{</span><span class="s">&#39;web_user&#39;</span><span class="p">:</span> <span class="s">&#39;alfredodeza@example.com&#39;</span><span class="p">,</span> <span class="s">&#39;server_id&#39;</span><span class="p">:</span> <span class="s">&#39;1&#39;</span><span class="p">,</span>
+<span class="s">&#39;web_port&#39;</span><span class="p">:</span> <span class="s">&#39;8081&#39;</span><span class="p">,</span> <span class="s">&#39;log_level&#39;</span><span class="p">:</span> <span class="s">&#39;DEBUG&#39;</span><span class="p">,</span>
+<span class="s">&#39;cache&#39;</span><span class="p">:</span> <span class="s">&#39;10&#39;</span><span class="p">,</span> <span class="s">&#39;db_port&#39;</span><span class="p">:</span> <span class="s">&#39;27017&#39;</span><span class="p">,</span> <span class="s">&#39;application&#39;</span><span class="p">:</span> <span class="s">&#39;main&#39;</span><span class="p">,</span>
+<span class="s">&#39;db_host&#39;</span><span class="p">:</span> <span class="s">&#39;localhost&#39;</span><span class="p">,</span> <span class="s">&#39;plugins&#39;</span><span class="p">:</span> <span class="s">&#39;my_plugin&#39;</span><span class="p">,</span>
+<span class="s">&#39;log_datefmt&#39;</span><span class="p">:</span> <span class="s">&#39;%H:%M:%S&#39;</span><span class="p">,</span>
+<span class="s">&#39;plugin_path&#39;</span><span class="p">:</span> <span class="s">&#39;/Users/alfredo/waskr_plugins&#39;</span><span class="p">,</span>
+<span class="s">&#39;log_format&#39;</span><span class="p">:</span> <span class="s">&#39;</span><span class="si">%(asctime)s</span><span class="s"> </span><span class="si">%(levelname)s</span><span class="s"> </span><span class="si">%(name)s</span><span class="s">  </span><span class="si">%(message)s</span><span class="s">&#39;</span><span class="p">,</span>
+<span class="s">&#39;web_host&#39;</span><span class="p">:</span> <span class="s">&#39;localhost&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>No parameters or extra code needed!</p>
+<p>And the above is a very <em>cheap</em> call since it is not re-parsing the config, but rather, returning
+what is already in memory.</p>
+</div>
+<div class="section" id="custom-plugin-configuration">
+<span id="custom-plugin-config"></span><h2>Custom Plugin Configuration<a class="headerlink" href="#custom-plugin-configuration" title="Permalink to this headline">¶</a></h2>
+<p>This can be achieved with adding lines in the configuration that matches the
+pattern waskr looks at parse time. Those values will get included in the
+dictionary and should be accessible at any point by your plugin.</p>
+<p>For a more complete reference on how to implement custom configuration
+key and values please check <a class="reference internal" href="configuration.html#custom-configuration"><em>Custom Configuration</em></a></p>
+<p>If your custom config sections looks like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">waskr</span><span class="o">.</span><span class="n">custom</span><span class="o">.</span><span class="n">foo</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Then <tt class="docutils literal"><span class="pre">foo</span></tt> would be added to the parsed config dictionary with a value of <tt class="docutils literal"><span class="pre">1</span></tt>, such as:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s">&#39;foo&#39;</span><span class="p">:</span><span class="s">&#39;1&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="advanced-plugins-exporting-to-serverdensity">
+<span id="advanced-plugin"></span><h1>Advanced Plugins - Exporting To ServerDensity<a class="headerlink" href="#advanced-plugins-exporting-to-serverdensity" title="Permalink to this headline">¶</a></h1>
+<p>In this section we will show you a couple of things thay you may be interested when
+writing a plugin with <strong>waskr</strong>.</p>
+<p><a class="reference external" href="http://www.serverdensity.com">Server Density</a> is a server monitoring service (paid)
+that allows you to have great visualization and alerts together in a great UI.
+Our example below, will include a plugin for Waskr that will be able to push
+your WSGI application&#8217;s stats to them.</p>
+<p>We will not be going through how to get a Server Density plugin up and running here.</p>
+<p>If you are not familiar with their system, check their
+<a class="reference external" href="http://www.serverdensity.com/docs/agent/plugins/">Plugin Documentation</a> for requirements
+on how to set this plugin properly.</p>
+<p>In case you want to skip the step by step explanation, this is the full, working plugin:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">waskr.plugins</span> <span class="kn">import</span> <span class="n">Plugin</span>
+<span class="kn">from</span> <span class="nn">waskr.database</span> <span class="kn">import</span> <span class="n">Stats</span>
+
+<span class="k">class</span> <span class="nc">Wsgi</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agentConfig</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">checksLogger</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">rawConfig</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">agentConfig</span> <span class="o">=</span> <span class="n">agentConfig</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checksLogger</span> <span class="o">=</span> <span class="n">checksLogger</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rawConfig</span> <span class="o">=</span> <span class="n">rawConfig</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stats</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">Plugin</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;--wsgi-stats&quot;</span><span class="p">,</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="s">&quot;store_true&quot;</span><span class="p">,</span>
+            <span class="n">description</span> <span class="o">=</span> <span class="s">&quot;My own custom plugin woot&quot;</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">db</span> <span class="o">=</span> <span class="n">Stats</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_values</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[</span><span class="s">&#39;Response Time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">response_bundle</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[</span><span class="s">&#39;Requests&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">request_bundle</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;When your option is called, this runs&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_stats</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stats</span>
+</pre></div>
+</div>
+<div class="section" id="initial-setup">
+<h2>Initial Setup<a class="headerlink" href="#initial-setup" title="Permalink to this headline">¶</a></h2>
+<p>You need a couple of things to import from <strong>waskr</strong>:</p>
+<blockquote>
+<ul class="simple">
+<li><strong>Plugins</strong> That will get your plugin recognized by the middleware.</li>
+<li><strong>Stats</strong> The main class that is able to connect to your stored data.</li>
+</ul>
+</blockquote>
+<p>Since the ServerDensity plugin requirements force you to have a few arguments,
+set them to be (by default) to <tt class="xref docutils literal"><span class="pre">None</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">agentConfig</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">checksLogger</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">rawConfig</span><span class="o">=</span><span class="bp">None</span>
+</pre></div>
+</div>
+<p>The plugin system from ServerDensity will overwrite those default values at runtime.</p>
+<p>The Class Name of the plugin has to match the exact name their system gives you. In this case
+it just happens to be <tt class="docutils literal"><span class="pre">Wsgi</span></tt> which is also the name of the file.</p>
+</div>
+<div class="section" id="getting-stats-data">
+<h2>Getting Stats Data<a class="headerlink" href="#getting-stats-data" title="Permalink to this headline">¶</a></h2>
+<p>In our plugin, we have a <tt class="docutils literal"><span class="pre">get_stats()</span></tt> method where we call the database and get some
+information back.</p>
+<p>The first part, initializes the database connection with the configuration coming from
+<strong>waskr</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">db</span> <span class="o">=</span> <span class="n">Stats</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_values</span><span class="p">())</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">self.config()</span></tt> is waskr&#8217;s own Plugin method that has already parsed the values you need
+to connect.</p>
+<p>Now you need to <em>build</em> the dictionary necessary to pass on to ServerDensity.</p>
+<p>We already have an empty dictionary instance when we initialized our plugin, so we are
+adding some values to it:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[</span><span class="s">&#39;Response Time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">response_bundle</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[</span><span class="s">&#39;Requests&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">request_bundle</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here we are adding a <tt class="docutils literal"><span class="pre">Response</span> <span class="pre">Time</span></tt> and <tt class="docutils literal"><span class="pre">Requests</span></tt> keys. These names will be displayed within
+ServerDensity when it receives the stats. If you want to change the naming, do that here so
+it displays properly.</p>
+<p>Note we are specifying a <tt class="docutils literal"><span class="pre">minutes=1</span></tt>, what this does, is telling the database to return
+the last 60 seconds of stats <em>bundled</em> together. This differes in how <strong>waskr</strong> works (we supply
+stats for every second) but the ServerDensity plugin system will call this plugin every minute, so
+we need to get everything together and return it to get data that makes sense.</p>
+<p>Also note that since we are not giving the response time for <em>every</em> single request, we are
+just returning an average of <strong>all</strong> responses in the given time (e.g. 1 minute)</p>
+</div>
+<div class="section" id="pushing-data">
+<h2>Pushing Data<a class="headerlink" href="#pushing-data" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">run()</span></tt> method happens to be the method that ServerDensity calls (matches what <strong>waskr</strong> uses but
+it doesn&#8217;t matter at this point).</p>
+<p>You call the <tt class="docutils literal"><span class="pre">get_stats</span></tt> method we described above that populates the empty dictionary and then you
+return it when <tt class="docutils literal"><span class="pre">run()</span></tt> gets called.</p>
+<p>This is how your data might look once it gets picked up by the ServerDensity agent running on your
+machine:</p>
+<img alt="_images/serverdensity.png" src="_images/serverdensity.png" />
+<p>And note how the keys we supplied in the dictionary will get displayed:</p>
+<img alt="_images/serverdensity2.png" src="_images/serverdensity2.png" />
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">plugins</span></tt> &#8211; API</a><ul>
+<li><a class="reference internal" href="#first-step">First Step</a></li>
+<li><a class="reference internal" href="#enabling-plugin-s">Enabling plugin(s)</a></li>
+<li><a class="reference internal" href="#actions">Actions</a></li>
+<li><a class="reference internal" href="#configuration-access">Configuration Access</a></li>
+<li><a class="reference internal" href="#custom-plugin-configuration">Custom Plugin Configuration</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#advanced-plugins-exporting-to-serverdensity">Advanced Plugins - Exporting To ServerDensity</a><ul>
+<li><a class="reference internal" href="#initial-setup">Initial Setup</a></li>
+<li><a class="reference internal" href="#getting-stats-data">Getting Stats Data</a></li>
+<li><a class="reference internal" href="#pushing-data">Pushing Data</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="configuration.html"
+                        title="previous chapter">Configuring</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="web_interface.html"
+                        title="next chapter">Web Interface</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/plugins.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="web_interface.html" title="Web Interface"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="configuration.html" title="Configuring"
+             >previous</a> |</li>
+        <li><a href="index.html">waskr v0.0.9 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Alfredo Deza.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

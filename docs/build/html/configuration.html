@@ -1,0 +1,331 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Configuring &mdash; waskr v0.0.10 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.10',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="waskr v0.0.10 documentation" href="index.html" />
+    <link rel="next" title="plugins – API" href="plugins.html" />
+    <link rel="prev" title="Getting Started" href="getting_started.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="plugins.html" title="plugins – API"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="getting_started.html" title="Getting Started"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">waskr v0.0.10 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="configuring">
+<span id="configuration"></span><h1>Configuring<a class="headerlink" href="#configuring" title="Permalink to this headline">¶</a></h1>
+<p>Waskr needs very little configuration to get started. However, it
+offers a lot of flexibility if you need to extend Waskr by adding plugins
+and adding specific plugin options, or if you need to use other components
+like the web interface.</p>
+<div class="section" id="framework-configs">
+<span id="from-framework"></span><h2>Framework Configs<a class="headerlink" href="#framework-configs" title="Permalink to this headline">¶</a></h2>
+<p>Some Frameworks like Pylons and Turbogears, have all the configurations in memory
+so you might want to use that instead of passing static dictionaries or a path.</p>
+<p>If the configs are already parsed it might be a good idea to go ahead and use that.</p>
+<p>However, since those dictionaries differ a bit, you need to pass that instance with
+a different parameter: <tt class="docutils literal"><span class="pre">framework_config</span></tt> will need to hold that config object.</p>
+<p>A framework config would map <tt class="docutils literal"><span class="pre">waskr</span></tt> configurations like so:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s">&#39;waskr.middleware.server_id&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;waskr.middleware.application&#39;</span><span class="p">:</span> <span class="s">&#39;main&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>That is the reason we need to deal with it differently.</p>
+<p>Passing the config instance is trivial:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># acquire the config object somehow:</span>
+<span class="kn">from</span> <span class="nn">framework</span> <span class="kn">import</span> <span class="n">config</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">RequestStatsMiddleware</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">framework_config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Make sure you are using <tt class="docutils literal"><span class="pre">framework_config</span></tt> and not other parameters in <tt class="docutils literal"><span class="pre">RequestStatsMiddleware</span></tt></p>
+</div>
+</div>
+<div class="section" id="ini">
+<span id="id1"></span><h2>INI<a class="headerlink" href="#ini" title="Permalink to this headline">¶</a></h2>
+<p>Waskr uses INI format config files, that for the most part should match those
+same config files of current Full WSGI Frameworks like Pylons or Turbogears.</p>
+<p>Below, we show what all the standard options Waskr can take, with its defaults.</p>
+<p>INI Style Configuration:</p>
+<div class="highlight-python"><pre># This is a sample Configuration File
+# for running any of Waskr's utilities
+# It should be taken as an example if you are running
+# a Pylons or Paster app and want to put some Configuration
+# settings there.
+#
+# You can also pass a dictionary, since all of waskr's utilities
+# look for a dictionary type of configuration to read from.
+
+[DEFAULT]
+# Middleware Configuration
+waskr.middleware.server_id = 1
+waskr.middleware.application = main
+
+# Database Engine
+waskr.db.engine = sqlite
+
+# Use only for Sqlite3
+waskr.db.location = /tmp
+
+# Database (Mongo)
+waskr.db.host = localhost
+waskr.db.port = 27017
+
+# Web Interface
+waskr.web.host = localhost
+waskr.web.port = 8080
+
+# Logging
+waskr.log.level = DEBUG
+waskr.log.format = %(asctime)s %(levelname)s %(name)s  %(message)s
+waskr.log.datefmt = %H:%M:%S
+
+# Cache
+waskr.cache = 10
+
+# Plugins
+waskr.plugins = None
+waskr.plugin.path = False
+
+# Web User
+waskr.web.user = False</pre>
+</div>
+<p>The values above, get parsed into a dictionary that eventually gets into the Middleware.</p>
+</div>
+<div class="section" id="dictionary">
+<span id="id2"></span><h2>Dictionary<a class="headerlink" href="#dictionary" title="Permalink to this headline">¶</a></h2>
+<p>You can also pass the configuration settings as a dictionary. However, special care needs to
+be taken since the naming changes a bit. We actually <em>translate</em> the options from the INI file
+to more readable strings.</p>
+<p>Values from a config file get translated like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">from_config</span> <span class="o">=</span> <span class="p">{</span>
+         <span class="s">&#39;waskr.db_engine&#39;</span><span class="p">:</span><span class="s">&#39;db_engine&#39;</span><span class="p">,</span>
+         <span class="s">&#39;waskr.db_location&#39;</span><span class="p">:</span><span class="s">&#39;db_location&#39;</span><span class="p">,</span>
+         <span class="s">&#39;waskr.db.host&#39;</span><span class="p">:</span><span class="s">&#39;db_host&#39;</span><span class="p">,</span>
+         <span class="s">&#39;waskr.db.port&#39;</span><span class="p">:</span><span class="s">&#39;db_port&#39;</span><span class="p">,</span>
+         <span class="s">&#39;waskr.web.host&#39;</span><span class="p">:</span><span class="s">&#39;web_host&#39;</span><span class="p">,</span>
+         <span class="s">&#39;waskr.web.port&#39;</span><span class="p">:</span><span class="s">&#39;web_port&#39;</span><span class="p">,</span>
+         <span class="s">&#39;waskr.middleware.application&#39;</span><span class="p">:</span><span class="s">&#39;application&#39;</span><span class="p">,</span>
+         <span class="s">&#39;waskr.middleware.server_id&#39;</span><span class="p">:</span><span class="s">&#39;server_id&#39;</span><span class="p">,</span>
+         <span class="s">&#39;waskr.log.level&#39;</span><span class="p">:</span><span class="s">&#39;log_level&#39;</span><span class="p">,</span>
+         <span class="s">&#39;waskr.log.format&#39;</span><span class="p">:</span><span class="s">&#39;log_format&#39;</span><span class="p">,</span>
+         <span class="s">&#39;waskr.log.datefmt&#39;</span><span class="p">:</span><span class="s">&#39;log_datefmt&#39;</span><span class="p">,</span>
+         <span class="s">&#39;waskr.cache&#39;</span><span class="p">:</span><span class="s">&#39;cache&#39;</span><span class="p">,</span>
+         <span class="s">&#39;waskr.plugins&#39;</span><span class="p">:</span><span class="s">&#39;plugins&#39;</span><span class="p">,</span>
+         <span class="s">&#39;waskr.plugin.path&#39;</span><span class="p">:</span><span class="s">&#39;plugin_path&#39;</span><span class="p">,</span>
+         <span class="s">&#39;waskr.web.user&#39;</span><span class="p">:</span><span class="s">&#39;web_user&#39;</span>
+         <span class="p">}</span>
+</pre></div>
+</div>
+<p>And default values are shown below. This is the dictionary you could pass
+directly into the Middleware if you chose to:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">defaults</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;server_id&#39;</span><span class="p">:</span> <span class="s">&#39;1&#39;</span><span class="p">,</span>
+    <span class="s">&#39;db_engine&#39;</span><span class="p">:</span><span class="s">&#39;sqlite&#39;</span><span class="p">,</span>
+    <span class="s">&#39;db_location&#39;</span><span class="p">:</span><span class="s">&#39;/tmp&#39;</span><span class="p">,</span>
+    <span class="s">&#39;db_host&#39;</span><span class="p">:</span> <span class="s">&#39;localhost&#39;</span><span class="p">,</span>
+    <span class="s">&#39;db_port&#39;</span><span class="p">:</span> <span class="mi">27017</span><span class="p">,</span>
+    <span class="s">&#39;application&#39;</span><span class="p">:</span> <span class="s">&#39;main&#39;</span><span class="p">,</span>
+    <span class="s">&#39;web_host&#39;</span><span class="p">:</span> <span class="s">&#39;localhost&#39;</span><span class="p">,</span>
+    <span class="s">&#39;web_port&#39;</span><span class="p">:</span> <span class="s">&#39;8080&#39;</span><span class="p">,</span>
+    <span class="s">&#39;web_user&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+    <span class="s">&#39;plugins&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+    <span class="s">&#39;plugin_path&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+    <span class="s">&#39;cache&#39;</span><span class="p">:</span> <span class="s">&#39;10&#39;</span><span class="p">,</span>
+    <span class="s">&#39;log_level&#39;</span><span class="p">:</span> <span class="s">&#39;DEBUG&#39;</span><span class="p">,</span>
+    <span class="s">&#39;log_format&#39;</span><span class="p">:</span> <span class="s">&#39;</span><span class="si">%(asctime)s</span><span class="s"> </span><span class="si">%(levelname)s</span><span class="s"> </span><span class="si">%(name)s</span><span class="s">  </span><span class="si">%(message)s</span><span class="s">&#39;</span><span class="p">,</span>
+    <span class="s">&#39;log_datefmt&#39;</span> <span class="p">:</span> <span class="s">&#39;%H:%M:%S&#39;</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>Let&#8217;s go through each one of the configuration labels:</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Some options are for the command line tool and are displayed here with (CLI)</p>
+</div>
+<p><strong>server_id</strong>
+If you have a load balanced application, you can identify them with an ID. We suggest you use numbers but anything that is a string is an OK value.</p>
+<p><strong>application</strong>
+Sometimes you may have your application sub divided into different apps, you can set them here too. For example, your <em>server_one</em> may have 2 WSGI apps: <em>blog</em> and <em>ticketing_system</em></p>
+<p><strong>db_engine</strong>
+sqlite, mongodb are all valid options.</p>
+<p><strong>db_location</strong>
+The location of the database. When use Sqlite3.</p>
+<p><strong>db_host</strong>
+The host of the database instance. This can be either the IP or the FQDN</p>
+<p><strong>db_port</strong>
+The port the database is using (we default to the standard MongoDB port).</p>
+<p><strong>web_host</strong>
+When running the web interface, where would you want this web server to serve at. Again, IP&#8217;s or FQDN are valid options.</p>
+<p><strong>web_port</strong>
+The port were the web interface will be running at.</p>
+<p><strong>web_user</strong>
+Specify the email that has access to the web interface of the app</p>
+<p><strong>cache</strong>
+Waskr holds some data before writing it to the database to avoiding having the middleware
+cluttering DB writes. By default, waskr will wait until it has 10 hits before pushing
+the data to the DB. Tweak this value to accomodate better your app needs (e.g. a much higher
+number if you have poppular application).</p>
+<p><strong>log_level</strong>
+DEBUG, INFO, WARNING, ERROR are all valid options.</p>
+<p><strong>log_format</strong>
+How the log output will be shown.</p>
+<p><strong>log_datefmt</strong>
+You can tweak the way we display the time, specially useful when you need miliseconds for precision.</p>
+<p><strong>plugins (CLI)</strong>
+Add a list of plugins (or just one) to enable in the command line tool.
+(Needs to be set with the <tt class="docutils literal"><span class="pre">plugin_path</span></tt> option)</p>
+<p><strong>plugin_path (CLI)</strong>
+Specify an absolute path for your plugins. (Needs to be set with the <tt class="docutils literal"><span class="pre">plugins</span></tt> option.)</p>
+</div>
+<div class="section" id="custom-configuration">
+<span id="id3"></span><h2>Custom Configuration<a class="headerlink" href="#custom-configuration" title="Permalink to this headline">¶</a></h2>
+<p>You can also have <strong>as many</strong> custom configuration keys enabled. We achieve this by having
+a schema for parsing.</p>
+<p>The schema is as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">waskr</span><span class="o">.</span><span class="n">custom</span><span class="o">.</span><span class="n">foo</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">waskr</span><span class="o">.</span><span class="n">custom</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">bar</span> <span class="o">=</span> <span class="bp">False</span>
+</pre></div>
+</div>
+<p>The above would get translated into:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">foo</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">foo_bar</span> <span class="o">=</span> <span class="bp">False</span>
+</pre></div>
+</div>
+<p>As long as you are representing your custom options with a preceding <tt class="docutils literal"><span class="pre">waskr.custom</span></tt>
+the app will parse those options and make them python-readable strings.</p>
+<p>Note however, that we are not <em>evaluating</em> the values of your configuration keys. If you
+are setting some key to be <tt class="xref docutils literal"><span class="pre">True</span></tt> like we did for <tt class="docutils literal"><span class="pre">waskr.custom.foo</span></tt> then it will
+get parsed as a string <tt class="docutils literal"><span class="pre">&quot;True&quot;</span></tt></p>
+<p>Those custom configurations (if they do not raise exceptions) will get added to the
+in-memory dictionary when parsed so they should be widely available.</p>
+</div>
+<div class="section" id="passing-the-configuration">
+<h2>Passing the Configuration<a class="headerlink" href="#passing-the-configuration" title="Permalink to this headline">¶</a></h2>
+<p>Now that you have the file, or dictionary with the specific configuration settings you may
+want, how do you pass them to the Middleware?</p>
+<p>Since <strong>waskr</strong> is allowing either a file, or a dictionary, passing this to the Middleware
+is tribial.</p>
+<p>For a INI config file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">app</span> <span class="o">=</span> <span class="n">RequestStatsMiddleware</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="s">&#39;/my/path/to/app.ini&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For a dictionary:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">my_config</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;server_id&#39;</span><span class="p">:</span> <span class="s">&#39;3&#39;</span><span class="p">,</span><span class="s">&#39;db_engine&#39;</span><span class="p">:</span><span class="s">&#39;mongodb&#39;</span><span class="p">}</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">RequestStatsMiddleware</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">my_config</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For Framework that uses Paster-style configurations check <a class="reference internal" href="#from-framework"><em>Framework Configs</em></a></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Configuring</a><ul>
+<li><a class="reference internal" href="#framework-configs">Framework Configs</a></li>
+<li><a class="reference internal" href="#ini">INI</a></li>
+<li><a class="reference internal" href="#dictionary">Dictionary</a></li>
+<li><a class="reference internal" href="#custom-configuration">Custom Configuration</a></li>
+<li><a class="reference internal" href="#passing-the-configuration">Passing the Configuration</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="getting_started.html"
+                        title="previous chapter">Getting Started</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="plugins.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">plugins</span></tt> &#8211; API</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/configuration.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="plugins.html" title="plugins – API"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="getting_started.html" title="Getting Started"
+             >previous</a> |</li>
+        <li><a href="index.html">waskr v0.0.10 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Alfredo Deza.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0b2.
+    </div>
+  </body>
+</html>

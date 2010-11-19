@@ -1,0 +1,201 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>waskr documentation &mdash; waskr v0.0.9 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.9',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="waskr v0.0.9 documentation" href="#" />
+    <link rel="next" title="Getting Started" href="getting_started.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="getting_started.html" title="Getting Started"
+             accesskey="N">next</a> |</li>
+        <li><a href="#">waskr v0.0.9 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="waskr-documentation">
+<h1>waskr documentation<a class="headerlink" href="#waskr-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Get key metrics for your WSGI application with this extremely light middleware.</p>
+<img alt="_images/waskr.png" src="_images/waskr.png" />
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#databases">Databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#no-configuration">No Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#adding-configuration">Adding Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#passing-the-configuration">Passing the Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuring</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#ini">INI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#dictionary">Dictionary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#custom-configuration">Custom Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#passing-the-configuration">Passing the Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html"><tt class="docutils literal"><span class="pre">plugins</span></tt> &#8211; API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="plugins.html#first-step">First Step</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins.html#enabling-plugin-s">Enabling plugin(s)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins.html#actions">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins.html#configuration-access">Configuration Access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins.html#custom-plugin-configuration">Custom Plugin Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html#advanced-plugins-exporting-to-serverdensity">Advanced Plugins - Exporting To ServerDensity</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="plugins.html#initial-setup">Initial Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins.html#getting-stats-data">Getting Stats Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins.html#pushing-data">Pushing Data</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="web_interface.html">Web Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="web_interface.html#first-run">First run</a></li>
+<li class="toctree-l2"><a class="reference internal" href="web_interface.html#stopping-the-server">Stopping the Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="web_interface.html#login-page">Login Page</a></li>
+<li class="toctree-l2"><a class="reference internal" href="web_interface.html#main-page">Main Page</a></li>
+<li class="toctree-l2"><a class="reference internal" href="web_interface.html#stats-page">Stats Page</a></li>
+<li class="toctree-l2"><a class="reference internal" href="web_interface.html#time-ranges">Time Ranges</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="command_line.html">Command Line</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#server">server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#conf">conf</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="under_the_hood.html">Under the Hood</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="under_the_hood.html#code-base-and-hosting">Code Base and Hosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="under_the_hood.html#dependencies">Dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="benchmarks.html">Benchmarks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="benchmarks.html#environment">Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="benchmarks.html#without-middleware">Without Middleware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="benchmarks.html#with-requeststatsmiddleware">With RequestStatsMiddleware</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">ChangeLog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-9">Version 0.9</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-8">Version 0.8</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="we-believe-in">
+<h1>We believe in<a class="headerlink" href="#we-believe-in" title="Permalink to this headline">¶</a></h1>
+<p>Lean, reliable pieces of software that enables us (you) to do better web applications.</p>
+<p>If we are able to measure, then we are able to compare. If we can compare, then we can improve.</p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>waskr can catch metrics that are key to measure your application&#8217;s performance:</p>
+<ul class="simple">
+<li>Requests per Second</li>
+<li>Request Time (to respond)</li>
+</ul>
+<p>If you are able to tell how many requests per second you are dealing with and how much each request is taking to respond you can be in better control of your application&#8217;s needs.</p>
+</div>
+<div class="section" id="background">
+<h2>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
+<p>The name waskr comes from the Inca Emperor Waskar who ruled the Inca Empire from 1527 to 1532 AD. Just about the time when they
+were building Machu Picchu.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">waskr documentation</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#we-believe-in">We believe in</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#background">Background</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="getting_started.html"
+                        title="next chapter">Getting Started</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="getting_started.html" title="Getting Started"
+             >next</a> |</li>
+        <li><a href="#">waskr v0.0.9 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Alfredo Deza.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

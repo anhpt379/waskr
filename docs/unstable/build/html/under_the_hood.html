@@ -1,0 +1,158 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Under the Hood &mdash; waskr v0.0.9 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.9',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="waskr v0.0.9 documentation" href="index.html" />
+    <link rel="next" title="Benchmarks" href="benchmarks.html" />
+    <link rel="prev" title="Command Line" href="command_line.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="benchmarks.html" title="Benchmarks"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="command_line.html" title="Command Line"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">waskr v0.0.9 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="under-the-hood">
+<span id="id1"></span><h1>Under the Hood<a class="headerlink" href="#under-the-hood" title="Permalink to this headline">¶</a></h1>
+<p>There are a few things to keep in mind when using  <strong>waskr</strong>. These are mainly how this
+middleware ties some things behind the scenes.</p>
+<div class="section" id="code-base-and-hosting">
+<h2>Code Base and Hosting<a class="headerlink" href="#code-base-and-hosting" title="Permalink to this headline">¶</a></h2>
+<p><strong>waskr</strong> is hosted at <a class="reference external" href="http://code.google.com/p/waskr">Google Code</a></p>
+<p>If you want to check out the code, we use Mercurial, so you would need to run:</p>
+<div class="highlight-python"><pre>hg clone https://waskr.googlecode.com/hg/ waskr</pre>
+</div>
+<p>If you want to install it, you can use <tt class="docutils literal"><span class="pre">pip</span></tt>:</p>
+<div class="highlight-python"><pre>pip install waskr</pre>
+</div>
+</div>
+<div class="section" id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<p>Usually taken care of by <tt class="docutils literal"><span class="pre">setup.py</span></tt> but is good to know that you need to have the following
+up and running:</p>
+<ul class="simple">
+<li>MongoDB</li>
+</ul>
+<div class="section" id="configuration">
+<h3>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h3>
+<p>Waskr needs a couple of configuration options passed as a dictionary. This allows you to get the configuration from where you may be storing it and then push it to the middleware when running your app.</p>
+<p>All of the following configuration settings are optional</p>
+<ul class="simple">
+<li>server_id - If you have more than one instance you can add a name or a number here (defaults to 1)</li>
+<li>db_host = The database host (IP or FQDN) defaults to localhost</li>
+<li>db_port = The port where your DB is running on (defaults to 27017).</li>
+<li>application = The name of the application you are running (you may have other WSGI apps) it defaults to &#8216;main&#8217;.</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Under the Hood</a><ul>
+<li><a class="reference internal" href="#code-base-and-hosting">Code Base and Hosting</a></li>
+<li><a class="reference internal" href="#dependencies">Dependencies</a><ul>
+<li><a class="reference internal" href="#configuration">Configuration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="command_line.html"
+                        title="previous chapter">Command Line</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="benchmarks.html"
+                        title="next chapter">Benchmarks</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/under_the_hood.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="benchmarks.html" title="Benchmarks"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="command_line.html" title="Command Line"
+             >previous</a> |</li>
+        <li><a href="index.html">waskr v0.0.9 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Alfredo Deza.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,34 @@
+Metadata-Version: 1.0
+Name: waskr
+Version: 0.0.10
+Summary: Stats Middleware for WSGI applications.
+Home-page: http://code.google.com/p/waskr
+Author: Alfredo Deza
+Author-email: alfredodeza [at] gmail [dot] com
+License: MIT
+Description:  Provides statistics for any WSGI application:
+        
+          * Requests Per Second
+          * Time to respond
+        
+         Data can be accessed via a web interface and/or writing your own
+         plugins.
+         The plugins API is simple yet flexible enough to allow you to 
+         get the specific stats you may need.
+        
+         Configuration is not needed and waskr provides a simple way 
+         of configuring the middleware. 
+         You can pass a dictionary with some values a path to an INI file 
+         or work with paster/pylons/turbogears configuration objects.
+        
+         Full documentation can be found at http://code.google.com/p/waskr
+         
+Keywords: WSGI stats statistics request measure performance
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Topic :: Software Development :: Build Tools
+Classifier: Programming Language :: Python :: 2.5
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7

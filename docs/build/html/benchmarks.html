@@ -1,0 +1,249 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Benchmarks &mdash; waskr v0.0.10 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.10',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="waskr v0.0.10 documentation" href="index.html" />
+    <link rel="next" title="ChangeLog" href="changelog.html" />
+    <link rel="prev" title="Under the Hood" href="under_the_hood.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="changelog.html" title="ChangeLog"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="under_the_hood.html" title="Under the Hood"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">waskr v0.0.10 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="benchmarks">
+<span id="id1"></span><h1>Benchmarks<a class="headerlink" href="#benchmarks" title="Permalink to this headline">¶</a></h1>
+<p>We strongly believe that a statistical piece of software should <strong>not</strong>
+add an overhead to an application.</p>
+<p>We are providing the following benchmarks done with <cite>ab</cite> the Apache
+Benchmarking Tool.</p>
+<div class="section" id="environment">
+<h2>Environment<a class="headerlink" href="#environment" title="Permalink to this headline">¶</a></h2>
+<p>For the environment, we used a Turbogears2 WSGI application with a local
+instance of MongoDB.</p>
+<p>Since we knew we were going to be receiving a lot of requests, we set the
+cache level of waskr to 200.</p>
+<p>This basically means that waskr will hold data of 200 requests in memory
+<em>before</em> writing to the database.</p>
+<p>The benchmark options where set with the following:</p>
+<blockquote>
+<ul class="simple">
+<li>5 concurrent connections with KeepAlive enabled</li>
+<li>30 seconds max</li>
+</ul>
+</blockquote>
+</div>
+<div class="section" id="without-middleware">
+<h2>Without Middleware<a class="headerlink" href="#without-middleware" title="Permalink to this headline">¶</a></h2>
+<p>The following results are with the WSGI application running their normal
+middleware:</p>
+<div class="highlight-python"><pre>This is ApacheBench, Version 2.3 &lt;$Revision: 655654 $&gt;
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking 10.0.0.164 (be patient)
+Finished 1201 requests
+
+
+Server Software:        PasteWSGIServer/0.5
+Server Hostname:        10.0.0.164
+Server Port:            8001
+
+Document Path:          /
+Document Length:        4414 bytes
+
+Concurrency Level:      5
+Time taken for tests:   30.012 seconds
+Complete requests:      1201
+Failed requests:        679
+   (Connect: 0, Receive: 0, Length: 679, Exceptions: 0)
+Write errors:           0
+Keep-Alive requests:    0
+Total transferred:      5731087 bytes
+HTML transferred:       5048919 bytes
+Requests per second:    40.02 [#/sec] (mean)
+Time per request:       124.947 [ms] (mean)
+Time per request:       24.989 [ms] (mean, across all concurrent requests)
+Transfer rate:          186.48 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        1    3   0.7      3       7
+Processing:    98  122  49.6    113     927
+Waiting:       97  120  49.6    112     925
+Total:        101  125  49.6    116     930
+
+Percentage of the requests served within a certain time (ms)
+  50%    116
+  66%    120
+  75%    123
+  80%    127
+  90%    147
+  95%    158
+  98%    171
+  99%    176
+ 100%    930 (longest request)</pre>
+</div>
+</div>
+<div class="section" id="with-requeststatsmiddleware">
+<h2>With RequestStatsMiddleware<a class="headerlink" href="#with-requeststatsmiddleware" title="Permalink to this headline">¶</a></h2>
+<p>The following was introducing waskr which is a valid point to say
+it is so lean it does not make a difference in your app&#8217;s performance:</p>
+<div class="highlight-python"><pre>This is ApacheBench, Version 2.3 &lt;$Revision: 655654 $&gt;
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking 10.0.0.164 (be patient)
+Finished 1227 requests
+
+
+Server Software:        PasteWSGIServer/0.5
+Server Hostname:        10.0.0.164
+Server Port:            8001
+
+Document Path:          /
+Document Length:        4414 bytes
+
+Concurrency Level:      5
+Time taken for tests:   30.001 seconds
+Complete requests:      1227
+Failed requests:        707
+   (Connect: 0, Receive: 0, Length: 707, Exceptions: 0)
+Write errors:           0
+Keep-Alive requests:    0
+Total transferred:      5848915 bytes
+HTML transferred:       5151979 bytes
+Requests per second:    40.90 [#/sec] (mean)
+Time per request:       122.255 [ms] (mean)
+Time per request:       24.451 [ms] (mean, across all concurrent requests)
+Transfer rate:          190.39 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        3    7  40.4      5    1007
+Processing:    58  115  45.7    108     887
+Waiting:       56  113  45.7    106     885
+Total:         65  122  60.5    113    1105
+
+Percentage of the requests served within a certain time (ms)
+  50%    113
+  66%    116
+  75%    118
+  80%    120
+  90%    142
+  95%    156
+  98%    164
+  99%    212
+ 100%   1105 (longest request)</pre>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Benchmarks</a><ul>
+<li><a class="reference internal" href="#environment">Environment</a></li>
+<li><a class="reference internal" href="#without-middleware">Without Middleware</a></li>
+<li><a class="reference internal" href="#with-requeststatsmiddleware">With RequestStatsMiddleware</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="under_the_hood.html"
+                        title="previous chapter">Under the Hood</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="changelog.html"
+                        title="next chapter">ChangeLog</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/benchmarks.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="changelog.html" title="ChangeLog"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="under_the_hood.html" title="Under the Hood"
+             >previous</a> |</li>
+        <li><a href="index.html">waskr v0.0.10 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, Alfredo Deza.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0b2.
+    </div>
+  </body>
+</html>
