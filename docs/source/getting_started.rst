@@ -91,7 +91,7 @@ INI Style Configuration::
     waskr.cache = 10
     
     # Web User 
-    waskr.web.user = alfredo@example.com
+    waskr.web.password = alfredo@example.com
 
 Also note that if no options are passed, defaults are used.
 This also means that you may have only a few options set, and some other left as defaults.
@@ -113,7 +113,7 @@ directly into the Middleware if you chose to::
             'application': 'main',
             'web_host': 'localhost',
             'web_port': '8080',
-            'web_user': False,
+            'web_password': False,
             'plugins': None,
             'plugin_path': False,
             'cache': '10',

@@ -24,6 +24,9 @@ class Stats(object):
             self.waskr = self.connection['test_waskr']
             self.stats = self.waskr['stats']
             self.users = self.waskr['user']
+        self.cache = {}
+        self.cache_size = 100
+        self.cache_keys = []
 
     def insert(self, stats):
         # Stats should come as a list of dictionaries
@@ -88,23 +91,34 @@ class Stats(object):
         mins = int(minutes) * 60
         start = time() - int(mins)
         hits = self.stats.find({"time": {"$gte": start, "$lt": time()}}).count()
-        return hits
         log.model.debug("returned requests per second")
+        return hits
  
     def request_time(self, minutes):
         """Get the last N minutes of request stats"""
+        log.model.debug("quering request time...")
         requests_second = []
         mins = int(minutes) * 60
         start = time() - int(mins)
         records = self.stats.find({"time": {"$gte": start, "$lt": time()}})
+        log.model.debug("query finished. processing...")
         for stat in records:
             data = []
-            hits = self.stats.find({'time':stat['time']}).count()
+            hits = self.cache.get(stat['time'])
+            if not hits:
+              log.model.debug("refreshing...")
+              hits = self.stats.find({'time':stat['time']}).count()
+              self.cache[stat['time']] = hits
+              self.cache_keys.append(stat['time'])
+              if len(self.cache_keys) > self.cache_size:
+                log.model.debug("remove old cache...")
+                key = self.cache_keys.pop(0)
+                self.cache.pop(key)
             miliseconds = int(stat['time']) * 1000
             data.append(miliseconds)
             data.append(hits)
             requests_second.append(data)
-        return requests_second
         log.model.debug("returned requests per second")
+        return requests_second
 
 

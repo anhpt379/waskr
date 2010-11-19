@@ -47,7 +47,7 @@ class TestRequestStatsMiddleware(unittest.TestCase):
             'application': 'main',
             'web_host': 'localhost',
             'web_port': '8081',
-            'web_user': 'foo@bar.com',
+            'web_password': 'foo@bar.com',
             'cache': '10',
             'plugins': None,
             'plugin_path': False,

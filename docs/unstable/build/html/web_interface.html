@@ -60,10 +60,10 @@ server instance and port (as you may have seen from the <a class="reference inte
 <div class="section" id="first-run">
 <h2>First run<a class="headerlink" href="#first-run" title="Permalink to this headline">¶</a></h2>
 <p>Once you have started the web server with your desired configurations (see <a class="reference internal" href="command_line.html#server"><em>server</em></a>) you will need
-to login as the <tt class="docutils literal"><span class="pre">web_user</span></tt> you have configured in your INI file (this greatly differs from earlier versions
+to login as the <tt class="docutils literal"><span class="pre">web_password</span></tt> you have configured in your INI file (this greatly differs from earlier versions
 of waskr where you needed to add/remove users via the command line).</p>
 <p>If you haven&#8217;t added such a user in your configuration file it is tribial to do so:</p>
-<div class="highlight-python"><pre>waskr.web.user = user@example.com</pre>
+<div class="highlight-python"><pre>waskr.web.password = user@example.com</pre>
 </div>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
@@ -71,7 +71,7 @@ of waskr where you needed to add/remove users via the command line).</p>
 unwanted usage.</p>
 </div>
 <p>You will need to restart the server if you make any changes.</p>
-<p>At login time, the server will verify the value of <tt class="docutils literal"><span class="pre">waskr.web.user</span></tt> and match it to what you
+<p>At login time, the server will verify the value of <tt class="docutils literal"><span class="pre">waskr.web.password</span></tt> and match it to what you
 submit.</p>
 <p>By default, this value is set to <tt class="xref docutils literal"><span class="pre">False</span></tt> and will not allow any logins.</p>
 </div>

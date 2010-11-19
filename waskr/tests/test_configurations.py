@@ -273,7 +273,7 @@ class TestConfigOptions(unittest.TestCase):
             'waskr.cache':'cache',
             'waskr.plugins':'plugins',
             'waskr.plugin.path':'plugin_path',
-            'waskr.web.user':'web_user'
+            'waskr.web.password':'web_password'
             }
 
         self.defaults = {
@@ -285,7 +285,7 @@ class TestConfigOptions(unittest.TestCase):
             'application': 'main',
             'web_host': 'localhost',
             'web_port': '8080',
-            'web_user': False,
+            'web_password': False,
             'plugins': None,
             'plugin_path': False,
             'cache': '10',
@@ -319,7 +319,7 @@ class TestConfigOptions(unittest.TestCase):
             'application': 'secondary',
             'web_host': 'web.example.com',
             'web_port': '8080',
-            'web_user': False,
+            'web_password': False,
             'plugins': None,
             'plugin_path': False,
             'cache': 20,
@@ -357,7 +357,7 @@ class TestConfigOptions(unittest.TestCase):
     def test_options_ini(self):
         actual = options('./conf.ini')
         expected = { 
-                'web_user': False,
+                'web_password': False,
                 'plugins': None,
                 'plugin_path': False,
                 'server_id': '2',
@@ -380,7 +380,7 @@ class TestConfigOptions(unittest.TestCase):
         expected = {
                 'db_engine':'sqlite',
                 'db_location':'/tmp',
-                'web_user': False,
+                'web_password': False,
                 'plugins': None,
                 'plugin_path': False,
                 'server_id': '1',
@@ -401,7 +401,7 @@ class TestConfigOptions(unittest.TestCase):
         expected = { 
                 'db_engine':'sqlite',
                 'db_location':'/tmp',
-                'web_user': False,
+                'web_password': False,
                 'plugins': None,
                 'plugin_path': False,
                 'server_id': '2',
@@ -422,7 +422,7 @@ class TestConfigOptions(unittest.TestCase):
         expected = {
                 'db_engine':'sqlite',
                 'db_location':'/tmp',
-                'web_user': False,
+                'web_password': False,
                 'plugins': None,
                 'plugin_path': False,
                 'server_id': '2',
@@ -443,7 +443,7 @@ class TestConfigOptions(unittest.TestCase):
         expected = {
                 'db_engine':'sqlite',
                 'db_location':'/tmp',
-                'web_user': False,
+                'web_password': False,
                 'plugins': None,
                 'plugin_path': False,
                 'server_id': '2',
@@ -464,7 +464,7 @@ class TestConfigOptions(unittest.TestCase):
         expected = { 
                 'db_engine':'sqlite',
                 'db_location':'/tmp',
-                'web_user': False,
+                'web_password': False,
                 'plugins': None,
                 'plugin_path': False,
                 'server_id': '2',
@@ -485,7 +485,7 @@ class TestConfigOptions(unittest.TestCase):
         expected = {
                 'db_engine':'sqlite',
                 'db_location':'/tmp',
-                'web_user': False,
+                'web_password': False,
                 'plugins': None,
                 'plugin_path': False,
                 'server_id': '2',
@@ -507,7 +507,7 @@ class TestConfigOptions(unittest.TestCase):
                 'db_engine':'sqlite',
                 'db_location':'/tmp',
                 'foo' : 'True',
-                'web_user': False,
+                'web_password': False,
                 'plugins': None,
                 'plugin_path': False,
                 'server_id': '2',
@@ -529,7 +529,7 @@ class TestConfigOptions(unittest.TestCase):
         expected = {
                 'db_engine':'sqlite',
                 'db_location':'/tmp',
-                'web_user': False,
+                'web_password': False,
                 'plugins': None,
                 'plugin_path': False,
                 'server_id': '2',

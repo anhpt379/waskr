@@ -1,7 +1,6 @@
 from os import path
 
-from bottle import response, request, redirect, route, run, view, send_file,\
-        local, TEMPLATE_PATH 
+from bottle import response, request, redirect, route, run, view, send_file, local, TEMPLATE_PATH 
 from waskr import log
 from waskr.config import options, setlogging
 from waskr.database import Stats
@@ -24,10 +23,8 @@ log.server.debug("initialized logging")
 @view('index')
 def index():
     logged_in()
-    user_email = request.COOKIES.get('user')
-    return dict(user_email=user_email,
-            last_received=local.db.last_insert(),
-            apps=local.db.apps_nodes())
+    return dict(last_received=local.db.last_insert(),
+                apps=local.db.apps_nodes())
 
 
 @route('/application/:name')
@@ -41,25 +38,22 @@ def interacting(name, minutes=120):
             requests_second=local.db.request_time(minutes))
 
 
-@route('/login', method='POST')
+@route('/login', method=['GET', 'POST'])
 @view('login')
-def login_post():
-    email = request.forms.get('email')
-    authorized_email = CONF['web_user']
-    if authorized_email and authorized_email == email:
-        try:
-            set_cookie(email)
-            return dict()
-        finally:
-            redirect('/')
+def login():
+    if request.method == "POST":
+        password = request.forms.get('password')
+        authorized_password = CONF['web_password']
+        if authorized_password and authorized_password == password:
+            try:
+                set_cookie(password)
+                return dict()
+            finally:
+                redirect('/')
+        else:
+            redirect('/login')
     else:
-        redirect('/login')
-
-
-@route('/login', method='GET')
-@view('login')
-def login_get():
-    return dict()
+      return dict()
 
 
 @route('/static/:filename')
@@ -85,9 +79,8 @@ def logged_in():
         redirect("/login")
 
 
-def set_cookie(email):
+def set_cookie(password):
     response.set_cookie('logged_in', 'True', expires=+99500)
-    response.set_cookie('user', email, expires=+99500)
 
 
 def main(config=CONF):

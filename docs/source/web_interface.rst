@@ -12,12 +12,12 @@ server instance and port (as you may have seen from the :ref:`adding-configurati
 First run
 -----------
 Once you have started the web server with your desired configurations (see :ref:`server`) you will need 
-to login as the ``web_user`` you have configured in your INI file (this greatly differs from earlier versions
+to login as the ``web_password`` you have configured in your INI file (this greatly differs from earlier versions
 of waskr where you needed to add/remove users via the command line).
 
 If you haven't added such a user in your configuration file it is tribial to do so::
 
-    waskr.web.user = user@example.com
+    waskr.web.password = user@example.com
      
 .. warning::
     This **DOES NOT** provide a secure interface. Adding your email is just a deterrent for
@@ -25,7 +25,7 @@ If you haven't added such a user in your configuration file it is tribial to do 
 
 You will need to restart the server if you make any changes.
 
-At login time, the server will verify the value of ``waskr.web.user`` and match it to what you
+At login time, the server will verify the value of ``waskr.web.password`` and match it to what you
 submit.
 
 By default, this value is set to ``False`` and will not allow any logins. 

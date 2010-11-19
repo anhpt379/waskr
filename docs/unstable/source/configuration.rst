@@ -54,7 +54,7 @@ INI Style Configuration::
     waskr.plugin.path = False
 
     # Web User 
-    waskr.web.user = False
+    waskr.web.password = False
 
 The values above, get parsed into a dictionary that eventually gets into the Middleware.
 
@@ -83,7 +83,7 @@ Values from a config file get translated like this::
             'waskr.cache':'cache',
             'waskr.plugins':'plugins',
             'waskr.plugin.path':'plugin_path',
-            'waskr.web.user':'web_user'
+            'waskr.web.password':'web_password'
             }
 
 And default values are shown below. This is the dictionary you could pass 
@@ -96,7 +96,7 @@ directly into the Middleware if you chose to::
             'application': 'main',
             'web_host': 'localhost',
             'web_port': '8080',
-            'web_user': False,
+            'web_password': False,
             'plugins': None,
             'plugin_path': False,
             'cache': '10',
@@ -130,7 +130,7 @@ When running the web interface, where would you want this web server to serve at
 **web_port**
 The port were the web interface will be running at.
 
-**web_user**
+**web_password**
 Specify the email that has access to the web interface of the app
 
 **cache**

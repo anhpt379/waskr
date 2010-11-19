@@ -134,7 +134,7 @@ class TestWaskrCommands(unittest.TestCase):
         commands.config_values()
         actual = sys.stdout.captured()
         print actual
-        expected = u'Configuration file added: /tmp/waskr.ini\nConfiguration file: /tmp/waskr.ini\n\nweb_user       = False\ndb_engine      = sqlite\nlog_level      = DEBUG\nweb_port       = 8080\ncache          = 10  \nserver_id      = 1   \ndb_port        = 27017\napplication    = main\ndb_location    = /tmp\ndb_host        = localhost\nplugins        = None\nlog_datefmt    = %H:%M:%S\nlog_format     = %(asctime)s %(levelname)s %(name)s  %(message)s\nplugin_path    = False\nweb_host       = localhost\n'
+        expected = u'Configuration file added: /tmp/waskr.ini\nConfiguration file: /tmp/waskr.ini\n\nweb_password       = False\ndb_engine      = sqlite\nlog_level      = DEBUG\nweb_port       = 8080\ncache          = 10  \nserver_id      = 1   \ndb_port        = 27017\napplication    = main\ndb_location    = /tmp\ndb_host        = localhost\nplugins        = None\nlog_datefmt    = %H:%M:%S\nlog_format     = %(asctime)s %(levelname)s %(name)s  %(message)s\nplugin_path    = False\nweb_host       = localhost\n'
         self.assertEqual(actual, expected) 
 
 

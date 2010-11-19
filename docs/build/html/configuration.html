@@ -128,7 +128,7 @@ waskr.plugins = None
 waskr.plugin.path = False
 
 # Web User
-waskr.web.user = False</pre>
+waskr.web.password = False</pre>
 </div>
 <p>The values above, get parsed into a dictionary that eventually gets into the Middleware.</p>
 </div>
@@ -153,7 +153,7 @@ to more readable strings.</p>
          <span class="s">&#39;waskr.cache&#39;</span><span class="p">:</span><span class="s">&#39;cache&#39;</span><span class="p">,</span>
          <span class="s">&#39;waskr.plugins&#39;</span><span class="p">:</span><span class="s">&#39;plugins&#39;</span><span class="p">,</span>
          <span class="s">&#39;waskr.plugin.path&#39;</span><span class="p">:</span><span class="s">&#39;plugin_path&#39;</span><span class="p">,</span>
-         <span class="s">&#39;waskr.web.user&#39;</span><span class="p">:</span><span class="s">&#39;web_user&#39;</span>
+         <span class="s">&#39;waskr.web.password&#39;</span><span class="p">:</span><span class="s">&#39;web_password&#39;</span>
          <span class="p">}</span>
 </pre></div>
 </div>
@@ -168,7 +168,7 @@ directly into the Middleware if you chose to:</p>
     <span class="s">&#39;application&#39;</span><span class="p">:</span> <span class="s">&#39;main&#39;</span><span class="p">,</span>
     <span class="s">&#39;web_host&#39;</span><span class="p">:</span> <span class="s">&#39;localhost&#39;</span><span class="p">,</span>
     <span class="s">&#39;web_port&#39;</span><span class="p">:</span> <span class="s">&#39;8080&#39;</span><span class="p">,</span>
-    <span class="s">&#39;web_user&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+    <span class="s">&#39;web_password&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
     <span class="s">&#39;plugins&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
     <span class="s">&#39;plugin_path&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
     <span class="s">&#39;cache&#39;</span><span class="p">:</span> <span class="s">&#39;10&#39;</span><span class="p">,</span>
@@ -199,7 +199,7 @@ The port the database is using (we default to the standard MongoDB port).</p>
 When running the web interface, where would you want this web server to serve at. Again, IP&#8217;s or FQDN are valid options.</p>
 <p><strong>web_port</strong>
 The port were the web interface will be running at.</p>
-<p><strong>web_user</strong>
+<p><strong>web_password</strong>
 Specify the email that has access to the web interface of the app</p>
 <p><strong>cache</strong>
 Waskr holds some data before writing it to the database to avoiding having the middleware

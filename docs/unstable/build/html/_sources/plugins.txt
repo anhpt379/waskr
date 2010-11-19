@@ -158,7 +158,7 @@ To access such a method, you just need to call it within your plugin. So somethi
 
     conf = self.config_values()
     print conf 
-    {'web_user': 'alfredodeza@example.com', 'server_id': '1', 
+    {'web_password': 'alfredodeza@example.com', 'server_id': '1', 
     'web_port': '8081', 'log_level': 'DEBUG', 
     'cache': '10', 'db_port': '27017', 'application': 'main', 
     'db_host': 'localhost', 'plugins': 'my_plugin', 
