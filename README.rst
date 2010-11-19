@@ -1,3 +1,3 @@
 Another version of WASKR (http://code.google.com/p/waskr/)
 
-WSGI Stats Monitoring
+WSGI Application Monitoring
