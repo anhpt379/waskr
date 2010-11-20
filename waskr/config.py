@@ -19,7 +19,7 @@ def options(config=None, framework_config=None):
     # longer names, hence the need to map them correctly
     opt_mapper = {
             'waskr.db.engine':'db_engine',
-			'waskr.db.location':'db_location',
+			      'waskr.db.location':'db_location',
             'waskr.db.host':'db_host',
             'waskr.db.port':'db_port',
             'waskr.web.host':'web_host',

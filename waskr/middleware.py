@@ -34,6 +34,9 @@ class RequestStatsMiddleware(object):
                 data['time']        = int(time())
                 data['response']    = self.timing(zero)
                 data['url']         = environ['PATH_INFO']
+                if environ['QUERY_STRING']:
+                  data['url'] += '?' + environ['QUERY_STRING']
+                data['remote_addr'] = environ['REMOTE_ADDR']
                 data['server_id']   = self.config['server_id']
                 data['application'] = self.config['application']
                 self.parser.construct(data)             

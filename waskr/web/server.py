@@ -27,16 +27,20 @@ def index():
                 apps=local.db.apps_nodes())
 
 
-@route('/application/:name')
-@route('/application/:name/:minutes')
+@route('/application/:name/:type')
+@route('/application/:name/:type/:minutes')
 @view('stats')
-def interacting(name, minutes=120):
+def interacting(name, type, minutes=2):
     logged_in()
-    return dict(
-            app_name=name,
-            time_response=local.db.response_time(minutes),
-            requests_second=local.db.request_time(minutes))
-
+    if type == "response_time":
+      return dict(app_name=name,
+                  time_response=local.db.response_time(minutes),
+                  requests_second=[])
+    else:
+      return dict(app_name=name,
+                  time_response=[],
+                  requests_second=local.db.request_time(minutes))
+      
 
 @route('/login', method=['GET', 'POST'])
 @view('login')
@@ -89,7 +93,7 @@ def main(config=CONF):
         local.db = Stats(config)
 
         # Start the waskr server
-        run(host=config['web_host'], port=config['web_port'], server='meinheld')
+        run(host=config['web_host'], port=config['web_port'])
     except Exception, e:
         print "Couldn't start the waskr server:\n%s" % e
 

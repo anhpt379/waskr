@@ -7,7 +7,7 @@
             Application
         </th>
         <th style="text-align:center;">
-            Node
+            PID
         </th>
         <th style="text-align:center;">
             Last request
@@ -15,7 +15,7 @@
         % for app in apps:
         <tr>
             <td>
-                <a href="/application/{{app[0]}}">{{app[0]}}</a>
+                <a href="/application/{{app[0]}}/requests_per_second">{{app[0]}}</a>
             </td>
             <td align="center">
                 <a>{{app[1]}}</a>

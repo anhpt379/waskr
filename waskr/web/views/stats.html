@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <title>Flot Examples</title>
+        <title>Graphs</title>
         <link href="/static/style.css" rel="stylesheet" type="text/css">
         </link>
         <!--[if IE]><script language="javascript" type="text/javascript" src="/flot/excanvas.min.js"></script><![endif]-->
@@ -13,30 +13,42 @@
     </head>
     <body>
         <h2>{{app_name}}</h2>
-        <h4>Requests per Second</h4>
-        <div id="requests" style="width:800px;height:300px">
-        </div>
-        <h4>Response Times</h4>
-        <div id="response" style="width:800px;height:300px">
-        </div>
+				%if requests_second:
+				  <a href="/application/{{app_name}}/response_time">>> Response time graph</a>
+				%else:
+				  <a href="/application/{{app_name}}/requests_per_second">>> Requests per second graph</a>
+			  %end
+				
+        %if requests_second:
+					<h4>Requests per Second</h4>
+	        <div id="requests" style="width:800px;height:300px">
+	        </div>
+				%else:
+	        <h4>Response Times</h4>
+	        <div id="response" style="width:800px;height:300px">
+	        </div>
+				%end
         <script id="source" language="javascript" type="text/javascript">
             $(function () {
-                var request = {{time_response}};
-                var plot = $.plot($("#response"),
-                    [ { data: request, label: "Response Times"}], 
-                    { xaxis: { mode: "time" },
-                      series: {lines: { show: true },points: { show: true }},
-                      grid: { hoverable: true, clickable: true }
-                         });
-            
-                var request = {{requests_second}};
-                var plot = $.plot($("#requests"),
-                    [ { data: request, label: "Requests Per Second"}], 
-                    { xaxis: { mode: "time" },
-                      series: {lines: { show: true },points: { show: true }},
-                      grid: { hoverable: true, clickable: true }
-                      });
-            
+							
+                %if not requests_second:
+	                var request = {{time_response}};
+	                var plot = $.plot($("#response"),
+	                    [ { data: request, label: "Response Times"}], 
+	                    { xaxis: { mode: "time" },
+	                      series: {lines: { show: true },points: { show: true }},
+	                      grid: { hoverable: true, clickable: true }
+	                         });
+                %else:
+	                var request = {{requests_second}};
+	                var plot = $.plot($("#requests"),
+	                    [ { data: request, label: "Requests Per Second"}], 
+	                    { xaxis: { mode: "time" },
+	                      series: {lines: { show: true },points: { show: true }},
+	                      grid: { hoverable: true, clickable: true }
+	                      });
+                %end
+								
                 function showTooltip(x, y, contents) {
                     $('<div id="tooltip">' + contents + '</div>').css( {
                         position: 'absolute',
@@ -51,76 +63,85 @@
                 }
             
                 var previousPoint = null;
-                $("#requests").bind("plothover", function (event, pos, item) {
-                    $("#x").text(pos.x.toFixed(2));
-                    $("#y").text(pos.y.toFixed(2));
-            
-                        if (item) {
-                            if (previousPoint != item.datapoint) {
-                                previousPoint = item.datapoint;
-                                
-                                $("#tooltip").remove();
-                                var x = item.datapoint[0].toFixed(2),
-                                    y = item.datapoint[1].toFixed(2);
-                                
-                                showTooltip(item.pageX, item.pageY,
-                                            "Requests per second  = " + y);
-                            }
-                        }
-                        else {
-                            $("#tooltip").remove();
-                            previousPoint = null;            
-                        }
-                });
-            
-                $("#response").bind("plothover", function (event, pos, item) {
-                    $("#x").text(pos.x.toFixed(2));
-                    $("#y").text(pos.y.toFixed(2));
-            
-                        if (item) {
-                            if (previousPoint != item.datapoint) {
-                                previousPoint = item.datapoint;
-                                
-                                $("#tooltip").remove();
-                                var x = item.datapoint[0].toFixed(2),
-                                    y = item.datapoint[1].toFixed(2);
-                                
-                                showTooltip(item.pageX, item.pageY,
-                                            "Response time  = " + y);
-                            }
-                        }
-                        else {
-                            $("#tooltip").remove();
-                            previousPoint = null;            
-                        }
-                });
-                $("#requests").bind("plothover", function (event, pos, item) {
-                    $("#x").text(pos.x.toFixed(2));
-                    $("#y").text(pos.y.toFixed(2));
-            
-                        if (item) {
-                            if (previousPoint != item.datapoint) {
-                                previousPoint = item.datapoint;
-                                
-                                $("#tooltip").remove();
-                                var x = item.datapoint[0].toFixed(2),
-                                    y = item.datapoint[1].toFixed(2);
-                                
-                                showTooltip(item.pageX, item.pageY,
-                                            "Requests per second  = " + y);
-                            }
-                        }
-                        else {
-                            $("#tooltip").remove();
-                            previousPoint = null;            
-                        }
-                });
-                $("#response").bind("plotclick", function (event, pos, item) {
-                    if (item) {
-                        $("#clickdata").text("You clicked point " + item.dataIndex + " in " + item.series.label + ".");
-                        plot.highlight(item.series, item.datapoint);
-                    }
-                });
+								
+                %if requests_second:
+	                $("#requests").bind("plothover", function (event, pos, item) {
+	                    $("#x").text(pos.x.toFixed(2));
+	                    $("#y").text(pos.y.toFixed(2));
+	            
+	                        if (item) {
+	                            if (previousPoint != item.datapoint) {
+	                                previousPoint = item.datapoint;
+	                                
+	                                $("#tooltip").remove();
+	                                var x = item.datapoint[0].toFixed(2),
+	                                    y = item.datapoint[1].toFixed(2);
+	                                
+	                                showTooltip(item.pageX, item.pageY,
+	                                            "Requests per second  = " + y);
+	                            }
+	                        }
+	                        else {
+	                            $("#tooltip").remove();
+	                            previousPoint = null;            
+	                        }
+	                });
+                
+								%else:
+	                $("#response").bind("plothover", function (event, pos, item) {
+	                    $("#x").text(pos.x.toFixed(2));
+	                    $("#y").text(pos.y.toFixed(2));
+	            
+	                        if (item) {
+	                            if (previousPoint != item.datapoint) {
+	                                previousPoint = item.datapoint;
+	                                
+	                                $("#tooltip").remove();
+	                                var x = item.datapoint[0].toFixed(2),
+	                                    y = item.datapoint[1].toFixed(2);
+	                                
+	                                showTooltip(item.pageX, item.pageY,
+	                                            "Response time  = " + (item.datapoint[1]*1000).toFixed(2) + "ms");
+	                            }
+	                        }
+	                        else {
+	                            $("#tooltip").remove();
+	                            previousPoint = null;            
+	                        }
+	                });
+								%end
+								
+								
+                %if requests_second:
+	                $("#requests").bind("plothover", function (event, pos, item) {
+	                    $("#x").text(pos.x.toFixed(2));
+	                    $("#y").text(pos.y.toFixed(2));
+	            
+	                        if (item) {
+	                            if (previousPoint != item.datapoint) {
+	                                previousPoint = item.datapoint;
+	                                
+	                                $("#tooltip").remove();
+	                                var x = item.datapoint[0].toFixed(2),
+	                                    y = item.datapoint[1].toFixed(2);
+	                                
+	                                showTooltip(item.pageX, item.pageY,
+	                                            "Requests per second  = " + y);
+	                            }
+	                        }
+	                        else {
+	                            $("#tooltip").remove();
+	                            previousPoint = null;            
+	                        }
+	                });
+								%else:
+	                $("#response").bind("plotclick", function (event, pos, item) {
+	                    if (item) {
+	                        $("#clickdata").text("You clicked point " + item.dataIndex + " in " + item.series.label + ".");
+	                        plot.highlight(item.series, item.datapoint);
+	                    }
+	                });
+							  %end
             });
         </script>
     </body>
