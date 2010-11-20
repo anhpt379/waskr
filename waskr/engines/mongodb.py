@@ -29,7 +29,8 @@ class Stats(object):
     def insert(self, stats):
         # Stats should come as a list of dictionaries
         for stat in stats:
-            self.stats.insert(stat)
+            self.stats.insert(stats)
+            self.cache.update({"time": stat['time']}, {"$inc": {"count": 1}}, upsert=True)
         log.database.debug("inserted stats to database")
 
     def last_insert(self):
@@ -98,26 +99,17 @@ class Stats(object):
         requests_second = []
         mins = int(minutes) * 60
         start = time() - int(mins)
-        records = self.stats.find({"time": {"$gte": start, "$lt": time()}})
-        total = records.count()
-        count = 0
+        records = self.cache.find({"time": {"$gte": start, "$lt": time()}})
+        log.model.debug("records: %s" % records.count())
         log.model.debug("query finished. processing...")
         for stat in records:
             data = []
-            count += 1
-            hits = self.cache.find_one({"key": stat['time']})
-            if hits:
-              hits = hits.get("value")
-            else:
-              log.model.debug("refreshing...")
-              hits = self.stats.find({'time':stat['time']}).count()
-              if count != total: # don't cache last minute
-                self.cache.insert({"key": stat['time'], "value": hits})
+            log.model.debug("refreshing...")
+            hits = self.cache.find_one({'time':stat['time']}).get('count')
+            log.model.debug("hits: %s" % hits)
             miliseconds = int(stat['time']) * 1000
             data.append(miliseconds)
             data.append(hits)
             requests_second.append(data)        
         log.model.debug("returned requests per second")
         return requests_second
-
-

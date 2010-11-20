@@ -5,6 +5,7 @@
 	<projects>
 		<project>bottle</project>
 		<project>pymongo</project>
+		<project>redis-py</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
