@@ -8,7 +8,7 @@ from optparse import OptionParser
 from os import path
 import sys
 
-from waskr import database, config_options
+from waskr import database, config.options
 from waskr.web import server
 
 def main():
@@ -29,7 +29,7 @@ If no configuration file is passed localhost and port 8080 is used.""")
 
     if options.server:
         if options.conf and path.isfile(options.conf):
-            configuration = config_options(options.conf)
+            configuration = config.options(options.conf)
             server.CONF = configuration
             server.main(configuration)
         else:
@@ -37,7 +37,7 @@ If no configuration file is passed localhost and port 8080 is used.""")
 
     if options.add_user and options.conf:
         try:
-            config = config_options(options.conf)
+            config = config.options(options.conf)
             db = database.Stats(config)
             db.add_user(options.add_user)
             print "User %s was added to the DB" % options.add_user
@@ -46,7 +46,7 @@ If no configuration file is passed localhost and port 8080 is used.""")
 
     if options.remove_user and options.conf:
         try:
-            config = config_options(options.conf)
+            config = config.options(options.conf)
             db = database.Stats(config)
             db.remove_user(options.add_user)
             print "User %s removed from DB" % options.remove_user
