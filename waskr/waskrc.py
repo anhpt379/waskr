@@ -8,7 +8,7 @@ from optparse import OptionParser
 from os import path
 import sys
 
-from waskr import database, config.options
+from waskr import database, config
 from waskr.web import server
 
 def main():

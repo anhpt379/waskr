@@ -104,10 +104,8 @@ class Stats(object):
         log.model.debug("query finished. processing...")
         for stat in records:
             data = []
-            if stat != records[-1]: # don't cache last minute
-              hits = self.cache.get(stat['time'])
-            else:
-              hits = None
+            hits = self.cache.get(stat['time'])
+            #TODO: don't cache last minute
             if not hits:
               log.model.debug("refreshing...")
               hits = self.stats.find({'time':stat['time']}).count()
@@ -120,7 +118,7 @@ class Stats(object):
             miliseconds = int(stat['time']) * 1000
             data.append(miliseconds)
             data.append(hits)
-            requests_second.append(data)
+            requests_second.append(data)        
         log.model.debug("returned requests per second")
         return requests_second
 
