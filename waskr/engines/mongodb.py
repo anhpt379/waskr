@@ -45,13 +45,13 @@ class Stats(object):
     def apps_nodes(self):
         apps = []
         for application in self.stats.distinct('application'):
-            c = self.stats.find({'application':application})
+            c = self.stats.find({'application': application}).sort('time', -1).limit(1000)
             for record in c:
                 match = (record['application']), record['server_id']
                 if match not in apps:
                     apps.append(match)
-        return apps
         log.model.debug("returned all application nodes present")
+        return apps
 
     def response_time(self, minutes):
         """Get the last N minutes of response stats"""
