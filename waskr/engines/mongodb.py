@@ -19,14 +19,12 @@ class Stats(object):
         self.waskr = self.connection['waskr']
         self.stats = self.waskr['stats']
         self.users = self.waskr['user']
+        self.cache = self.waskr['cache']
         log.database.debug("database connection initialized")
         if test:
             self.waskr = self.connection['test_waskr']
             self.stats = self.waskr['stats']
             self.users = self.waskr['user']
-        self.cache = {}
-        self.cache_size = 100
-        self.cache_keys = []
 
     def insert(self, stats):
         # Stats should come as a list of dictionaries
@@ -101,20 +99,20 @@ class Stats(object):
         mins = int(minutes) * 60
         start = time() - int(mins)
         records = self.stats.find({"time": {"$gte": start, "$lt": time()}})
+        total = records.count()
+        count = 0
         log.model.debug("query finished. processing...")
         for stat in records:
             data = []
-            hits = self.cache.get(stat['time'])
-            #TODO: don't cache last minute
-            if not hits:
+            count += 1
+            hits = self.cache.find_one({"key": stat['time']})
+            if hits:
+              hits = hits.get("value")
+            else:
               log.model.debug("refreshing...")
               hits = self.stats.find({'time':stat['time']}).count()
-              self.cache[stat['time']] = hits
-              self.cache_keys.append(stat['time'])
-              if len(self.cache_keys) > self.cache_size:
-                log.model.debug("remove old cache...")
-                key = self.cache_keys.pop(0)
-                self.cache.pop(key)
+              if count != total: # don't cache last minute
+                self.cache.insert({"key": stat['time'], "value": hits})
             miliseconds = int(stat['time']) * 1000
             data.append(miliseconds)
             data.append(hits)
