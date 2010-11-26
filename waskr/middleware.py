@@ -1,7 +1,7 @@
 from time import time
 from waskr.config import options, setlogging
 from util import RequestParser
-import log
+import log, traceback
 
 class RequestStatsMiddleware(object):
 
@@ -36,12 +36,16 @@ class RequestStatsMiddleware(object):
                 data['url']         = environ['PATH_INFO']
                 if environ['QUERY_STRING']:
                   data['url'] += '?' + environ['QUERY_STRING']
-                data['remote_addr'] = environ['REMOTE_ADDR']
+                if environ.get("HTTP_X_REAL_IP"):
+                  data['remote_addr'] = environ["HTTP_X_REAL_IP"]
+                else: 
+                  data['remote_addr'] = environ['REMOTE_ADDR']
                 data['server_id']   = self.config['server_id']
                 data['application'] = self.config['application']
                 self.parser.construct(data)             
             except Exception, error:
                 log.middleware.critical("failed to push request stats: %s" % error)
+                traceback.print_exc(file=open("err_log.txt", "a"))
                 
     def timing(self, zero):
         log.middleware.debug('returning time object')

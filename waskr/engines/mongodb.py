@@ -45,7 +45,7 @@ class Stats(object):
     def apps_nodes(self):
         apps = []
         for application in self.stats.distinct('application'):
-            c = self.stats.find({'application': application}).sort('time', -1).limit(1000)
+            c = self.stats.find({'application': application}).sort('time', -1).limit(30)
             for record in c:
                 match = (record['application']), record['server_id']
                 if match not in apps:
