@@ -34,7 +34,7 @@ class RequestStatsMiddleware(object):
                 data['time']        = int(time())
                 data['response']    = self.timing(zero)
                 data['url']         = environ['PATH_INFO']
-                if environ['QUERY_STRING']:
+                if environ.get('QUERY_STRING'):
                   data['url'] += '?' + environ['QUERY_STRING']
                 if environ.get("HTTP_X_REAL_IP"):
                   data['remote_addr'] = environ["HTTP_X_REAL_IP"]
